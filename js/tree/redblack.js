@@ -58,6 +58,11 @@ define([], function() {
     return a;
   };
 
+  RedBlack.prototype.draw = function(paper) {
+
+
+  };
+
 
   return RedBlack;
 

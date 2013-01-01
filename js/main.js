@@ -1,24 +1,32 @@
 define([
     './tester',
     './tree/redblack',
-    'raphael'
+    'lib/cake',
+    'jquery'
   ], function(
     tester,
-    redblack,
-    raphael
+    redblack
   ) {
   
-  // Creates canvas 320 × 200 at 10, 50
-  var paper = Raphael(10, 50, 320, 200);
 
-  // Creates circle at x = 50, y = 40, with radius 10
-  var circle = paper.circle(50, 40, 10);
-  // Sets the fill attribute of the circle to red (#f00)
-  circle.attr("fill", "#f00");
+  
 
-  // Sets the stroke attribute of the circle to white
-  circle.attr("stroke", "#fff");
+  var c = E.canvas(1, 1);
 
+
+
+  var canvas = new Canvas(c);
+  canvas.fill = [255,255,255,0.8];
+  canvas.clear = false;
+  var rect = new Rectangle(100, 100);
+  rect.x = 250;
+  rect.y = 250;
+  rect.fill = 'green';
+  rect.addFrameListener(function(t) {
+    this.rotation = ((t / 3000) % 1) * Math.PI * 2;
+  });
+  canvas.append(rect);
+  document.body.appendChild(c);
 
   var structures = [
     redblack
@@ -26,12 +34,14 @@ define([
 
   structures.forEach(function(s) {
 
-    // try {
+    try {
       tester(s);
-    // } catch(e) {
-    //   console.log(s + " failed: " + e);
-    //   return false;
-    // }
+    } catch(e) {
+      console.log(s + " failed: " + e);
+      return false;
+    }
+
+    if(s.draw) s.draw(paper);
 
     console.log(s + " passed");
     return true;
