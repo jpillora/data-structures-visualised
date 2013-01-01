@@ -30,7 +30,7 @@ define([], function() {
     return true;
   };
 
-  return function(Structure) {
+  var run = function(Structure) {
 
     var s = new Structure();
 
@@ -44,5 +44,7 @@ define([], function() {
 
     isSorted(s);
   };
+
+  return run;
 
 });

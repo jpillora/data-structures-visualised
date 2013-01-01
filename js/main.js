@@ -1,50 +1,48 @@
 define([
-    './tester',
-    './tree/redblack',
-    'lib/cake',
-    'jquery'
-  ], function(
-    tester,
-    redblack
-  ) {
-  
+  './ui',
+  './run',
+  './canvas',
+  './sort/index',
+  './data-structure/index',
+  'jquery'
+], function(
+  ui,
+  run,
+  canvas,
+  sorts,
+  dataStructures
+) {
 
-  
+  var setup = function(type, Class) {
+    console.log("setup class: " + Class + " (" + type + ")");
+    ui.add(type, Class);
+  };
 
-  var c = E.canvas(1, 1);
-
-
-
-  var canvas = new Canvas(c);
-  canvas.fill = [255,255,255,0.8];
-  canvas.clear = false;
-  var rect = new Rectangle(100, 100);
-  rect.x = 250;
-  rect.y = 250;
-  rect.fill = 'green';
-  rect.addFrameListener(function(t) {
-    this.rotation = ((t / 3000) % 1) * Math.PI * 2;
+  sorts.forEach(function(S) {
+    setup('sorts', S);
   });
-  canvas.append(rect);
-  document.body.appendChild(c);
+  dataStructures.forEach(function(S) {
+    setup('datastructures', S);
+  });
 
-  var structures = [
-    redblack
-  ];
 
-  structures.forEach(function(s) {
-
+  var onRun = function() {
     try {
-      tester(s);
+      run(s);
     } catch(e) {
       console.log(s + " failed: " + e);
       return false;
     }
 
-    if(s.draw) s.draw(paper);
+    if(s.draw) s.draw(canvas);
 
     console.log(s + " passed");
     return true;
+  };
+  
+  $(function() {
+    $("body").append(ui.container);
+    ui.run.click(onRun);
   });
 
 });

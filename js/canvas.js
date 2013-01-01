@@ -1,20 +1,23 @@
-define(['lib/cake', function() {
+define(['lib/cake', 'jquery'], function() {
 
-  // resize the canvas to fill browser window dynamically
-  window.addEventListener('resize', resizeCanvas, false);
+  var elem = E.canvas(0, 0);
+  var canvas = new Canvas(elem);
+  canvas.fill = [255,255,255,0.8];
+  canvas.clear = false;
 
-    function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  $('body').append(elem);
 
-    /**
-    * Your drawings need to be inside this function otherwise they will be reset when 
-    * you resize the browser window and the canvas goes will be cleared.
-    */
-    drawStuff(); 
+  function resizeCanvas() {
+    elem.width = window.innerWidth;
+    elem.height = window.innerHeight;
+
+    $(elem).trigger('redraw');
   }
+
+  $(window).resize(resizeCanvas);
   resizeCanvas();
 
-
+  canvas.elem = elem;
+  window.canvas = canvas;
   return canvas;
-}]);
+});
