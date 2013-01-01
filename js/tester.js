@@ -10,7 +10,7 @@ define([], function() {
     if(!s.toArray)
       throw "STRUCTURE MISSING 'TO ARRAY'";
 
-    var a = s.toArray(), 
+    var a = s.toArray(),
         last = a[0],
         curr = null,
         ASC = 1,
@@ -34,11 +34,13 @@ define([], function() {
 
     var s = new Structure();
 
+    window[s.toString()] = s;
+
     if(!s.insert)
       throw "STRUCTURE MISSING 'INSERT'";
 
-    for(var i = 0; i < 1000; ++i)
-      s.insert(random(10));
+    for(var i = 0; i < 10; ++i)
+      s.insert(random(2));
 
     isSorted(s);
   };

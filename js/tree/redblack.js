@@ -1,20 +1,26 @@
 define([], function() {
 
   //node class
-  var Node = function(val, red) {
+  var Node = function(parent, val) {
     this.red = false;
     this.val = val;
     this.left = null;
     this.right = null;
-    this.parent = null;
+    this.parent = parent;
   };
 
   //main class
   var RedBlack = function() {
-    this.root = new Node(null);
+    this.root = new Node(null, null);
   };
+
+
   RedBlack.toString = function() {
-    return "RedBlack"; 
+    return "RedBlack";
+  };
+
+  RedBlack.prototype.toString = function() {
+    return "RedBlack";
   };
 
   RedBlack.prototype.insert = function(n) {
@@ -27,11 +33,11 @@ define([], function() {
     if(node.val === null)
       node.val = n;
     else if(n < node.val && !node.left)
-      node.left = new Node(n);
+      node.left = new Node(node, n);
     else if(n < node.val && node.left)
       this.__insert(node.left, n);
     else if(n >= node.val && !node.right)
-      node.right = new Node(n);
+      node.right = new Node(node, n);
     else if(n >= node.val && node.right)
       this.__insert(node.right, n);
     else
@@ -40,13 +46,16 @@ define([], function() {
 
 
   RedBlack.prototype.__breadth = function(node, a) {
-
-    node.left
-
-  }
+    if(!node) return;
+    a.push(node.val);
+    this.__breadth(node.left,  a);
+    this.__breadth(node.right, a);
+  };
 
   RedBlack.prototype.toArray = function() {
-    return this.__breadth(this.root, []);
+    var a = [];
+    this.__breadth(this.root, a);
+    return a;
   };
 
 
