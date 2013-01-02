@@ -10,7 +10,10 @@ define([
   ui.container = create("div").css({
     position: "absolute",
     top: 0, left: 0,
-    margin: 20, padding: 20
+    margin: 20,
+    padding: 10,
+    background: 'whiteSmoke',
+    'border-radius': 10
   });
 
   ui.dropdown = create("select");
@@ -19,17 +22,16 @@ define([
   ui.sorts = create("optgroup").attr('label', 'Sort Algorithms');
   ui.dropdown.append(ui.sorts);
 
-  ui.structures = create("optgroup").attr('label', 'Data Structures');
-  ui.dropdown.append(ui.structures);
+  ui.datastructures = create("optgroup").attr('label', 'Data Structures');
+  ui.dropdown.append(ui.datastructures);
 
-  ui.run = create("button").html("Run");
+  ui.run = create("button").html("Run").css({width: '100%'});
   ui.container.append(create("div").append(ui.run));
 
-
-
-
-  ui.add = function(type, Class) {
-    var option = create("option").data('Class', Class).html(Class.toString());
+  ui.add = function(type, instance) {
+    var option = create("option")
+      .data('instance', instance)
+      .html(instance.toString());
     if(ui[type]) ui[type].append(option);
   };
 

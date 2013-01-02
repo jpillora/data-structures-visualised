@@ -1,30 +1,30 @@
 define([], function() {
 
   //main class
-  var Merge = function(canvas) {
+  var Quick = function(canvas) {
     this.reset();
     this.canvas = canvas;
   };
 
 
-  Merge.toString = Merge.prototype.toString = function() {
-    return "Merge";
+  Quick.toString = Quick.prototype.toString = function() {
+    return "Quick";
   };
 
-  Merge.prototype.reset = function() {
+  Quick.prototype.reset = function() {
     this.a = [];
   };
 
-  Merge.prototype.insert = function(n) {
+  Quick.prototype.insert = function(n) {
     this.a.push(n);
   };
 
-  Merge.prototype.toArray = function() {
-    this.a = Merge.sort(this.a);
+  Quick.prototype.toArray = function() {
+    this.a = Quick.sort(this.a);
     return this.a;
   };
 
-  Merge.sort = function(array) {
+  Quick.sort = function(array) {
 
 
     console.log(array);
@@ -37,7 +37,7 @@ define([], function() {
     while(sorted.length > 1) {
       var a = sorted.shift(),
           b = sorted.shift();
-      sorted.push(Merge.combine(a,b));
+      sorted.push(Quick.combine(a,b));
     }
 
     console.log(sorted[0]);
@@ -45,7 +45,7 @@ define([], function() {
     return sorted[0];
   };
 
-  Merge.combine = function(a,b) {
+  Quick.combine = function(a,b) {
     var c = [];
     while(a.length && b.length)
       c.push(a[0] < b[0] ? a.shift() : b.shift());
@@ -57,7 +57,7 @@ define([], function() {
   };
 
 
-  return Merge;
+  return Quick;
 
 
 });

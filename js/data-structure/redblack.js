@@ -11,16 +11,15 @@ define([], function() {
 
   //main class
   var RedBlack = function() {
+    this.reset();
+  };
+
+  RedBlack.toString = RedBlack.prototype.toString = function() {
+    return "RedBlack";
+  };
+
+  RedBlack.prototype.reset = function() {
     this.root = new Node(null, null);
-  };
-
-
-  RedBlack.toString = function() {
-    return "RedBlack";
-  };
-
-  RedBlack.prototype.toString = function() {
-    return "RedBlack";
   };
 
   RedBlack.prototype.insert = function(n) {

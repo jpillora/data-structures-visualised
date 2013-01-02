@@ -13,11 +13,40 @@ define([
   dataStructures
 ) {
 
+  var instances = [];
+
   var setup = function(type, Class) {
+
+
     console.log("setup class: " + Class + " (" + type + ")");
-    ui.add(type, Class);
+    
+    var instance = new Class();
+
+    instances.push(instance);
+    ui.add(type, instance);
   };
 
+
+
+  var currentOption = function() {
+    return ui.dropdown.find("option:selected");
+  };
+
+  var onRun = function() {
+
+    var instance = currentOption().data('instance');
+
+    try {
+      run(instance);
+    } catch(e) {
+      console.log(instance + " failed: " + e);
+      return false;
+    }
+
+    console.log(instance + " passed");
+    return true;
+  };
+  
   sorts.forEach(function(S) {
     setup('sorts', S);
   });
@@ -25,24 +54,10 @@ define([
     setup('datastructures', S);
   });
 
-
-  var onRun = function() {
-    try {
-      run(s);
-    } catch(e) {
-      console.log(s + " failed: " + e);
-      return false;
-    }
-
-    if(s.draw) s.draw(canvas);
-
-    console.log(s + " passed");
-    return true;
-  };
-  
   $(function() {
     $("body").append(ui.container);
     ui.run.click(onRun);
+    onRun();
   });
 
 });

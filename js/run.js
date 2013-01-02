@@ -5,13 +5,9 @@ define([], function() {
     return Math.round(Math.random()*factor);
   };
 
-  var isSorted = function(s) {
+  var isSorted = function(a) {
 
-    if(!s.toArray)
-      throw "STRUCTURE MISSING 'TO ARRAY'";
-
-    var a = s.toArray(),
-        last = a[0],
+    var last = a[0],
         curr = null,
         ASC = 1,
         DESC = -1,
@@ -30,19 +26,30 @@ define([], function() {
     return true;
   };
 
-  var run = function(Structure) {
+  var run = function(instance) {
 
-    var s = new Structure();
+    window[instance] = instance;
 
-    window[s.toString()] = s;
+    if(!instance.reset)
+      throw "STRUCTURE MISSING 'RESET'";
 
-    if(!s.insert)
+    instance.reset();
+
+    if(!instance.insert)
       throw "STRUCTURE MISSING 'INSERT'";
 
     for(var i = 0; i < 10; ++i)
-      s.insert(random(2));
+      instance.insert(random(2));
 
-    isSorted(s);
+    if(!instance.toArray)
+      throw "STRUCTURE MISSING 'TO ARRAY'";
+
+    var a = instance.toArray();
+
+    isSorted(a);
+
+    if(instance.draw)
+      instance.draw(canvas);
   };
 
   return run;
