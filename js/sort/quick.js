@@ -20,42 +20,50 @@ define([], function() {
   };
 
   Quick.prototype.toArray = function() {
-    this.a = Quick.sort(this.a);
+
+    console.log(this.a);
+    Quick.sort(0, this.a.length - 1, this.a);
+    console.log(this.a);
     return this.a;
   };
 
-  Quick.sort = function(array) {
+  Quick.swap = function(i, j, array) {
 
+    console.log("swap: " + (array[i] === null ? "left" : "right") + ": " + (array[i] || array[j]) );
+
+    Quick.swap.tmp = array[i];
+    array[i] = array[j];
+    array[j] = Quick.swap.tmp;
 
     console.log(array);
 
-    var sorted = [];
-    array.forEach(function(n) {
-      sorted.push([n]);
-    });
+  };
+  Quick.swap.tmp = null;
 
-    while(sorted.length > 1) {
-      var a = sorted.shift(),
-          b = sorted.shift();
-      sorted.push(Quick.combine(a,b));
-    }
+  Quick.partition = function(left, right, array, pivot) {
 
-    console.log(sorted[0]);
-    
-    return sorted[0];
+    console.log("quick: partition: %s [%s,%s]", array[pivot], left, right);
+
+    Quick.swap(pivot, right, array);
+    for(var i = left, s = left; i < right; ++i)
+      if(array[i] < array[right])
+        Quick.swap(i, s++, array);
+
+    Quick.swap(s, right, array);
+    return s;
   };
 
-  Quick.combine = function(a,b) {
-    var c = [];
-    while(a.length && b.length)
-      c.push(a[0] < b[0] ? a.shift() : b.shift());
-    while(a.length)
-      c.push(a.shift());
-    while(b.length)
-      c.push(b.shift());
-    return c;
-  };
+  Quick.sort = function(left, right, array) {
 
+    if(left >= right) return;
+
+    var pivot = Math.floor((right-left)/2) + left;
+
+    pivot = Quick.partition(left, right, array, pivot);
+
+    Quick.sort(left,  pivot-1, array);
+    Quick.sort(pivot+1, right, array);
+  };
 
   return Quick;
 

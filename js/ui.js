@@ -25,6 +25,12 @@ define([
   ui.datastructures = create("optgroup").attr('label', 'Data Structures');
   ui.dropdown.append(ui.datastructures);
 
+  ui.numbers = create("input").val(10);
+  ui.container.append(create("div").append(ui.numbers));
+
+  ui.digits = create("input").val(2);
+  ui.container.append(create("div").append(ui.digits));
+
   ui.run = create("button").html("Run").css({width: '100%'});
   ui.container.append(create("div").append(ui.run));
 
