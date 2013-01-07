@@ -1,6 +1,7 @@
 define([
   'util/dom/create',
-  'jquery'
+  'jquery',
+  'lib/jquery.cookie'
 ], function(
   create
 ) {
@@ -16,30 +17,71 @@ define([
     'border-radius': 10
   });
 
-  ui.dropdown = create("select");
+  ui.dropdown = create("select").css({width: '100%'});
   ui.container.append(create("div").append(ui.dropdown));
 
-  ui.sorts = create("optgroup").attr('label', 'Sort Algorithms');
-  ui.dropdown.append(ui.sorts);
-
-  ui.datastructures = create("optgroup").attr('label', 'Data Structures');
-  ui.dropdown.append(ui.datastructures);
+  ui.types = {};
 
   ui.numbers = create("input").val(10);
-  ui.container.append(create("div").append(ui.numbers));
+  ui.container.append(
+    create("div")
+      .append(create("div").html("Insertions"))
+      .append(ui.numbers)
+  );
 
   ui.digits = create("input").val(2);
-  ui.container.append(create("div").append(ui.digits));
+  ui.container.append(
+    create("div")
+      .append(create("div").html("Digits"))
+      .append(ui.digits)
+  );
+
+  ui.classContainers = {};
+  ui.classContainer = create("div");
+  ui.container.append(ui.classContainer);
 
   ui.run = create("button").html("Run").css({width: '100%'});
   ui.container.append(create("div").append(ui.run));
 
-  ui.add = function(type, instance) {
-    var option = create("option")
-      .data('instance', instance)
-      .html(instance.toString());
-    if(ui[type]) ui[type].append(option);
+  ui.selected = function() {
+    return ui.dropdown.find("option:selected");
   };
+
+  ui.add = function(type, Class) {
+    if(!ui.types[type]) {
+      ui.types[type] = create("optgroup").attr('label', type);
+      ui.dropdown.append(ui.types[type]);
+    }
+
+    var option = create("option")
+      .data('class', Class)
+      .html(Class.prototype.toString());
+
+    ui.types[type].append(option);
+  };
+
+  ui.dropdown.change(function() {
+
+    var Class = ui.selected().data('class');
+    instance = new Class(canvas);
+    console.log("setup class: " + instance);
+    ui.selected().data('instance', instance);
+
+    _.each(ui.classContainers, function(container, name) {
+      container.slideUp();
+    });
+
+    if(ui.classContainers[instance]) {
+      ui.classContainers[instance].slideDown();
+    } else if(instance.buildUi) {
+      var container = instance.buildUi();
+      ui.classContainers[instance] = container;
+      ui.classContainer.append(container);
+    }
+
+  });
+
+  window.ui = ui;
 
   return ui;
 
