@@ -8,7 +8,7 @@ define(['../../base'], function(Base) {
       this._super();
       this.size = 1;
       this.parent = parent;
-      this.values = val ? [val] : [];
+      this.values = val !== undefined ? [val] : [];
       this.children = [];
 
     },

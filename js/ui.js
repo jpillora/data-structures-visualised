@@ -62,10 +62,12 @@ define([
 
   ui.dropdown.change(function() {
 
-    var Class = ui.selected().data('class');
-    instance = new Class(canvas);
-    console.log("setup class: " + instance);
-    ui.selected().data('instance', instance);
+    if(!ui.selected().data('instance')) {
+      var Class = ui.selected().data('class');
+      instance = new Class(canvas);
+      console.log("setup class: " + instance);
+      ui.selected().data('instance', instance);
+    }
 
     _.each(ui.classContainers, function(container, name) {
       container.slideUp();

@@ -18,9 +18,16 @@ define(['util/dom/create','lib/class'], function(create) {
       return Math.round(Math.random()*Math.pow(10, digits));
     },
 
-    insertRandom: function(n, digits) {
+    randomArray: function(n, digits) {
+      var a = [];
+      for(var i = 0; i < n; ++i)
+        a[i] = this.random(digits);
+      return a;
+    },
+
+    insertArray: function(a) {
       if(!this.insert) throw unimplemented("insert");
-      for(var i = 0; i < n; ++i) this.insert(this.random(digits));
+      for(var i = 0; i < a.length; ++i) this.insert(a[i]);
     },
 
     isSorted: function() {
@@ -43,6 +50,20 @@ define(['util/dom/create','lib/class'], function(create) {
       }
 
       return true;
+    },
+
+    isSortedEqual: function(original) {
+      original.sort(function(a,b) {
+        return a >= b;
+      });
+
+      var a = this.toArray();
+      if(a.length !== original.length)
+        throw "DIFFERING LENGTHS: " + a.length + " - " + original.length;
+
+      for(var i = 0; i < a.length; ++i)
+        if(a[i] !== original[i])
+          throw "DIFFERING AT INDEX: " + i + "\n" + original.toString();
     },
 
     unimplemented: function(method) {

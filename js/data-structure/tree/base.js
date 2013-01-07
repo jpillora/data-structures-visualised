@@ -17,11 +17,13 @@ define(['../../base','../node/base'], function(Base, Node) {
     },
 
     reset: function() {
-      this.root = new this.Node();
+      this.root = null;
     },
 
     insert: function(val) {
       if(!this.insertValue) this.unimplemented("insertValue");
+      if(!this.root) 
+        return this.root = new this.Node(val);
       return this.insertValue(this.root, val);
     },
 
@@ -36,10 +38,9 @@ define(['../../base','../node/base'], function(Base, Node) {
     },
 
     insertValueAt: function(node, c, val) {
-      if(node.child(c)) {
-        node.size++;
+      node.size++;
+      if(node.child(c))
         return this.insertValue(node.child(c), val);
-      }
       return node.child(c, new this.Node(val, node));
     },
 
@@ -98,14 +99,17 @@ define(['../../base','../node/base'], function(Base, Node) {
 
     run: function(n, range) {
       this.reset();
-      this.insertRandom(n, range);
 
+      var a = this.randomArray(n, range);
+
+      console.log(a);
+      this.insertArray(a);
       if(this.ui.isDebug()) console.log(this.root);
 
       console.log(this.maxMinDepth());
       if(this.ui.isDebug()) this.print();
       console.log(this.toArray());
-      this.isSorted();
+      this.isSortedEqual(a);
     },
 
     print: function() {
@@ -117,6 +121,7 @@ define(['../../base','../node/base'], function(Base, Node) {
     },
 
     draw: function(paper) {
+
     }
 
   });

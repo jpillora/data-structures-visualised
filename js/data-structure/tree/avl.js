@@ -5,7 +5,7 @@ define(['./base'], function(BaseTree) {
 
     init: function(canvas) {
       this._super(canvas, 2);
-    },
+    }
 
 
 
